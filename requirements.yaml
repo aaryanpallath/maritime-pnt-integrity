@@ -1,0 +1,59 @@
+# System requirements for the maritime PNT integrity monitor.
+# Thresholds were set before any verification run. Each requirement names its verification method
+# (Test = automated Monte Carlo run over real vessel tracks; Analysis = derived from other results).
+system: Maritime PNT Integrity Monitor
+version: 1.0
+scenario_defaults:
+  gnss_rate_hz: 1
+  dead_reckoning_rate_hz: 10
+  event_start_s: 600          # outage / jamming / spoofing begins 10 minutes into each track
+  event_duration_s: 300
+requirements:
+  - id: PNT-001
+    title: Nominal position accuracy
+    text: With nominal GNSS, the 95th-percentile horizontal position error shall not exceed 5.0 m.
+    metric: nominal_p95_error_m
+    threshold: {op: "<=", value: 5.0}
+    method: Test
+  - id: PNT-002
+    title: GNSS outage holdover
+    text: During a 300 s GNSS outage, the 95th-percentile horizontal error shall not exceed 50 m using dead reckoning.
+    metric: outage_p95_error_m
+    threshold: {op: "<=", value: 50.0}
+    method: Test
+  - id: PNT-003
+    title: Accuracy under jamming
+    text: While GNSS noise is degraded to 25 m (1-sigma) by jamming, the 95th-percentile horizontal error shall not exceed 20 m.
+    metric: jamming_p95_error_m
+    threshold: {op: "<=", value: 20.0}
+    method: Test
+  - id: PNT-004
+    title: Spoofing detection probability
+    text: A GNSS drag-off spoof moving the reported position at 0.5 m/s or faster shall be detected in at least 95% of runs.
+    metric: spoof_detection_rate
+    threshold: {op: ">=", value: 0.95}
+    method: Test
+  - id: PNT-005
+    title: Spoofing time to alert
+    text: The 95th-percentile time from spoof onset to integrity alarm shall not exceed 60 s.
+    metric: spoof_p95_time_to_alert_s
+    threshold: {op: "<=", value: 60.0}
+    method: Test
+  - id: PNT-006
+    title: Containment under spoofing
+    text: Throughout a spoofing attack, the 95th-percentile horizontal error shall not exceed 50 m.
+    metric: spoof_p95_error_m
+    threshold: {op: "<=", value: 50.0}
+    method: Test
+  - id: PNT-007
+    title: False alarm rate
+    text: With nominal GNSS, integrity alarms shall occur no more than once per 10 hours of operation.
+    metric: false_alarms_per_10h
+    threshold: {op: "<=", value: 1.0}
+    method: Test
+  - id: PNT-008
+    title: Processing time
+    text: One dead-reckoning prediction plus one GNSS update shall take no more than 1 ms on the reference machine.
+    metric: update_time_p99_ms
+    threshold: {op: "<=", value: 1.0}
+    method: Test

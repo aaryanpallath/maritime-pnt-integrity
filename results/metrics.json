@@ -1,0 +1,116 @@
+{
+  "metrics": {
+    "nominal_p95_error_m": 3.016792958086454,
+    "outage_p95_error_m": 10.97202142711801,
+    "jamming_p95_error_m": 6.872291467930771,
+    "spoof_detection_rate": 0.9833333333333333,
+    "spoof_p95_time_to_alert_s": 23.0,
+    "spoof_p95_error_m": 11.443932998239061,
+    "false_alarms_per_10h": 0.33351862145636396,
+    "update_time_p99_ms": 0.0857920094858855
+  },
+  "runs": {
+    "tracks": 20,
+    "seeds_per_track": 6,
+    "scenarios": [
+      "nominal",
+      "outage",
+      "jamming",
+      "spoofing"
+    ],
+    "total_runs": 480,
+    "spoof_runs": 120,
+    "spoofs_detected": 118,
+    "nominal_hours": 59.97,
+    "false_alarms": 2,
+    "spoof_rates_ms": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "track_duration_s": 1800.0,
+    "machine": "arm64 / arm / Python 3.11.15"
+  },
+  "requirements": [
+    {
+      "id": "PNT-001",
+      "title": "Nominal position accuracy",
+      "text": "With nominal GNSS, the 95th-percentile horizontal position error shall not exceed 5.0 m.",
+      "method": "Test",
+      "metric": "nominal_p95_error_m",
+      "threshold": "<= 5.0",
+      "measured": 3.0168,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-002",
+      "title": "GNSS outage holdover",
+      "text": "During a 300 s GNSS outage, the 95th-percentile horizontal error shall not exceed 50 m using dead reckoning.",
+      "method": "Test",
+      "metric": "outage_p95_error_m",
+      "threshold": "<= 50.0",
+      "measured": 10.972,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-003",
+      "title": "Accuracy under jamming",
+      "text": "While GNSS noise is degraded to 25 m (1-sigma) by jamming, the 95th-percentile horizontal error shall not exceed 20 m.",
+      "method": "Test",
+      "metric": "jamming_p95_error_m",
+      "threshold": "<= 20.0",
+      "measured": 6.8723,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-004",
+      "title": "Spoofing detection probability",
+      "text": "A GNSS drag-off spoof moving the reported position at 0.5 m/s or faster shall be detected in at least 95% of runs.",
+      "method": "Test",
+      "metric": "spoof_detection_rate",
+      "threshold": ">= 0.95",
+      "measured": 0.9833,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-005",
+      "title": "Spoofing time to alert",
+      "text": "The 95th-percentile time from spoof onset to integrity alarm shall not exceed 60 s.",
+      "method": "Test",
+      "metric": "spoof_p95_time_to_alert_s",
+      "threshold": "<= 60.0",
+      "measured": 23.0,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-006",
+      "title": "Containment under spoofing",
+      "text": "Throughout a spoofing attack, the 95th-percentile horizontal error shall not exceed 50 m.",
+      "method": "Test",
+      "metric": "spoof_p95_error_m",
+      "threshold": "<= 50.0",
+      "measured": 11.4439,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-007",
+      "title": "False alarm rate",
+      "text": "With nominal GNSS, integrity alarms shall occur no more than once per 10 hours of operation.",
+      "method": "Test",
+      "metric": "false_alarms_per_10h",
+      "threshold": "<= 1.0",
+      "measured": 0.3335,
+      "result": "PASS"
+    },
+    {
+      "id": "PNT-008",
+      "title": "Processing time",
+      "text": "One dead-reckoning prediction plus one GNSS update shall take no more than 1 ms on the reference machine.",
+      "method": "Test",
+      "metric": "update_time_p99_ms",
+      "threshold": "<= 1.0",
+      "measured": 0.0858,
+      "result": "PASS"
+    }
+  ]
+}
